@@ -31,6 +31,10 @@ class EventPlanner {
       }
     }
   }
+
+  previewBenefit() {
+    OutputView.printPreviewBenefit(this.#dateManager.date);
+  }
 }
 
 export default EventPlanner;

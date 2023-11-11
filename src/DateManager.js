@@ -1,6 +1,6 @@
 class DateManager {
-  #ErrorMessage = {
-    InvalidDate: '[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.',
+  #errorMessage = {
+    INVALID_DATE: '[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.',
   };
   #date;
 
@@ -11,16 +11,20 @@ class DateManager {
 
   #validateDate(date) {
     if (isNaN(date)) {
-      throw new Error(this.#ErrorMessage.InvalidDate);
+      throw new Error(this.#errorMessage.INVALID_DATE);
     }
 
     if (date < 1 || date > 31) {
-      throw new Error(this.#ErrorMessage.InvalidDate);
+      throw new Error(this.#errorMessage.INVALID_DATE);
     }
 
     if (!Number.isInteger(date)) {
-      throw new Error(this.#ErrorMessage.InvalidDate);
+      throw new Error(this.#errorMessage.INVALID_DATE);
     }
+  }
+
+  get date() {
+    return this.#date;
   }
 }
 
