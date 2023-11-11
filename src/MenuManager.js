@@ -28,6 +28,8 @@ class MenuManager {
       throw new Error(this.#errorMessage.INVALID_ORDER);
     }
 
+    const orderDuplicateCheck = new Set();
+
     orderList.forEach((menu) => {
       if (!menu.name) {
         throw new Error(this.#errorMessage.INVALID_ORDER);
@@ -52,7 +54,17 @@ class MenuManager {
       if (!Number.isInteger(menu.count)) {
         throw new Error(this.#errorMessage.INVALID_ORDER);
       }
+
+      if (orderDuplicateCheck.has(menu.name)) {
+        throw new Error(this.#errorMessage.INVALID_ORDER);
+      }
+
+      orderDuplicateCheck.add(menu.name);
     });
+  }
+
+  get orderList() {
+    return this.#orderList;
   }
 }
 
