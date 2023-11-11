@@ -34,6 +34,7 @@ class EventPlanner {
 
   previewBenefit() {
     OutputView.printPreviewBenefit(this.#dateManager.date);
+    OutputView.printOrder(this.#menuManager.orderList);
   }
 }
 
