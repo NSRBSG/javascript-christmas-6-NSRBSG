@@ -16,19 +16,19 @@ class MenuManager {
     { name: '레드와인', type: 'drink', price: 60000 },
     { name: '샴페인', type: 'drink', price: 25000 },
   ];
-  #menuList;
+  #orderList;
 
-  constructor(menuList) {
-    this.#validateMenu(menuList);
-    this.#menuList = menuList;
+  constructor(orderList) {
+    this.#validateMenu(orderList);
+    this.#orderList = orderList;
   }
 
-  #validateMenu(menuList) {
-    if (menuList.length === 0) {
+  #validateMenu(orderList) {
+    if (orderList.length === 0) {
       throw new Error(this.#errorMessage.INVALID_ORDER);
     }
 
-    menuList.forEach((menu) => {
+    orderList.forEach((menu) => {
       if (!menu.name) {
         throw new Error(this.#errorMessage.INVALID_ORDER);
       }
