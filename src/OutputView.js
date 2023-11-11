@@ -21,6 +21,14 @@ const OutputView = {
     });
   },
 
+  printBeforeBenefit() {
+    Console.print('<할인 전 총주문 금액>');
+  },
+
+  printOriginalPrice(originalPrice) {
+    Console.print(`${originalPrice.toLocaleString('ko-KR')}원`);
+  },
+
   printError(message) {
     Console.print(message);
   },

@@ -34,7 +34,10 @@ class EventPlanner {
 
   previewBenefit() {
     OutputView.printPreviewBenefit(this.#dateManager.date);
+    OutputView.printMenu();
     OutputView.printOrder(this.#menuManager.orderList);
+    OutputView.printBeforeBenefit();
+    OutputView.printOriginalPrice(this.#menuManager.calculateTotalPrice());
   }
 }
 

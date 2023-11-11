@@ -66,6 +66,13 @@ class MenuManager {
   get orderList() {
     return this.#orderList;
   }
+
+  calculateTotalPrice() {
+    return this.#orderList.reduce((acc, cur) => {
+      const { price } = this.#menuData.find((data) => data.name === cur.name);
+      return acc + price * cur.count;
+    }, 0);
+  }
 }
 
 export default MenuManager;
