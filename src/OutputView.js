@@ -29,6 +29,14 @@ const OutputView = {
     Console.print(`${originalPrice.toLocaleString('ko-KR')}원`);
   },
 
+  printGiftMenu() {
+    Console.print('<증정 메뉴>');
+  },
+
+  printGift(approveGift) {
+    Console.print(approveGift ? '샴페인 1개' : '없음');
+  },
+
   printError(message) {
     Console.print(message);
   },

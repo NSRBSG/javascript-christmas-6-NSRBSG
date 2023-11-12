@@ -32,12 +32,21 @@ class EventPlanner {
     }
   }
 
+  #approveGift() {
+    if (this.#menuManager.calculateTotalPrice() >= 120000) {
+      return true;
+    }
+    return false;
+  }
+
   previewBenefit() {
     OutputView.printPreviewBenefit(this.#dateManager.date);
     OutputView.printMenu();
     OutputView.printOrder(this.#menuManager.orderList);
     OutputView.printBeforeBenefit();
     OutputView.printOriginalPrice(this.#menuManager.calculateTotalPrice());
+    OutputView.printGiftMenu();
+    OutputView.printGift(this.#approveGift());
   }
 }
 
