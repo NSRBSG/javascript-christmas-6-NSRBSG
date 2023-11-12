@@ -37,6 +37,50 @@ const OutputView = {
     Console.print(approveGift ? '샴페인 1개' : '없음');
   },
 
+  printBenefitDetails() {
+    Console.print('<혜택 내역>');
+  },
+
+  printHolidayDiscount(price) {
+    if (price) {
+      Console.print(
+        `크리스마스 디데이 할인: -${price.toLocaleString('ko-KR')}원`
+      );
+    }
+  },
+
+  printWeekdayDiscount(price) {
+    if (price) {
+      Console.print(`평일 할인: -${price.toLocaleString('ko-KR')}원`);
+    }
+  },
+
+  printWeekendDiscount(price) {
+    if (price) {
+      Console.print(`주말 할인: -${price.toLocaleString('ko-KR')}원`);
+    }
+  },
+
+  printSpecialDiscount(price) {
+    if (price) {
+      Console.print(`특별 할인: -${price.toLocaleString('ko-KR')}원`);
+    }
+  },
+
+  printGiftPrice(price) {
+    if (price) {
+      Console.print(`증정 이벤트: -${price.toLocaleString('ko-KR')}원`);
+    }
+  },
+
+  printTotalBenefitPrice() {
+    Console.print('<총혜택 금액>');
+  },
+
+  printTotalDiscountPrice(price) {
+    Console.print(`-${price.toLocaleString('ko-KR')}원`);
+  },
+
   printError(message) {
     Console.print(message);
   },

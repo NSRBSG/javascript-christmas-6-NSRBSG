@@ -67,6 +67,24 @@ class MenuManager {
     return this.#orderList;
   }
 
+  get mainCourseCount() {
+    const mainCourseOrder = this.#orderList.filter((order) => {
+      const { type } = this.#menuData.find((data) => data.name === order.name);
+      return type === 'mainCourse';
+    });
+
+    return mainCourseOrder.reduce((acc, order) => acc + order.count, 0);
+  }
+
+  get dessertCount() {
+    const dessertOrder = this.#orderList.filter((order) => {
+      const { type } = this.#menuData.find((data) => data.name === order.name);
+      return type === 'dessert';
+    });
+
+    return dessertOrder.reduce((acc, order) => acc + order.count, 0);
+  }
+
   calculateTotalPrice() {
     return this.#orderList.reduce((acc, cur) => {
       const { price } = this.#menuData.find((data) => data.name === cur.name);
