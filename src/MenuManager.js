@@ -65,6 +65,16 @@ class MenuManager {
       totalMenuCount += menu.count;
     });
 
+    if (
+      orderList.every(
+        (menu) =>
+          this.#menuData.find((data) => data.name === menu.name).type ===
+          'drink'
+      )
+    ) {
+      throw new Error(this.#errorMessage.INVALID_ORDER);
+    }
+
     if (totalMenuCount > 20) {
       throw new Error(this.#errorMessage.INVALID_ORDER);
     }

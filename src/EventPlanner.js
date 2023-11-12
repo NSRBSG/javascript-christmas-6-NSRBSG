@@ -40,7 +40,10 @@ class EventPlanner {
   }
 
   #calculateHolidayDiscount() {
-    if (this.#dateManager.isHolidayDiscount) {
+    if (
+      this.#menuManager.calculateTotalPrice() >= 10000 &&
+      this.#dateManager.isHolidayDiscount
+    ) {
       const baseDiscount = 1000;
       const alphaDiscount = 100;
 
@@ -51,7 +54,10 @@ class EventPlanner {
   }
 
   #calculateWeekendDiscount() {
-    if (this.#dateManager.isWeekendDiscount) {
+    if (
+      this.#menuManager.calculateTotalPrice() >= 10000 &&
+      this.#dateManager.isWeekendDiscount
+    ) {
       return this.#menuManager.mainCourseCount * 2023;
     }
 
@@ -59,7 +65,10 @@ class EventPlanner {
   }
 
   #calculateWeekdayDiscount() {
-    if (!this.#dateManager.isWeekendDiscount) {
+    if (
+      this.#menuManager.calculateTotalPrice() >= 10000 &&
+      !this.#dateManager.isWeekendDiscount
+    ) {
       return this.#menuManager.dessertCount * 2023;
     }
 
@@ -67,7 +76,10 @@ class EventPlanner {
   }
 
   #calculateSpecialDiscount() {
-    if (this.#dateManager.isSpecialDiscount) {
+    if (
+      this.#menuManager.calculateTotalPrice() >= 10000 &&
+      this.#dateManager.isSpecialDiscount
+    ) {
       const baseDiscount = 1000;
       return baseDiscount;
     }
@@ -86,11 +98,26 @@ class EventPlanner {
 
   #benefitDetails() {
     OutputView.printBenefitDetails();
-    OutputView.printHolidayDiscount(this.#calculateHolidayDiscount());
-    OutputView.printWeekendDiscount(this.#calculateWeekendDiscount());
-    OutputView.printWeekdayDiscount(this.#calculateWeekdayDiscount());
-    OutputView.printSpecialDiscount(this.#calculateSpecialDiscount());
-    OutputView.printGiftPrice(this.#calculateGiftPrice());
+
+    const leastOneDiscount = new Set();
+
+    leastOneDiscount.add(
+      OutputView.printHolidayDiscount(this.#calculateHolidayDiscount())
+    );
+    leastOneDiscount.add(
+      OutputView.printWeekendDiscount(this.#calculateWeekendDiscount())
+    );
+    leastOneDiscount.add(
+      OutputView.printWeekdayDiscount(this.#calculateWeekdayDiscount())
+    );
+    leastOneDiscount.add(
+      OutputView.printSpecialDiscount(this.#calculateSpecialDiscount())
+    );
+    leastOneDiscount.add(OutputView.printGiftPrice(this.#calculateGiftPrice()));
+
+    if (!leastOneDiscount.has(0)) {
+      OutputView.printNoBenefit();
+    }
   }
 
   #totalDiscountPrice() {

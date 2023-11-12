@@ -46,31 +46,40 @@ const OutputView = {
       Console.print(
         `크리스마스 디데이 할인: -${price.toLocaleString('ko-KR')}원`
       );
+      return 0;
     }
   },
 
   printWeekdayDiscount(price) {
     if (price) {
       Console.print(`평일 할인: -${price.toLocaleString('ko-KR')}원`);
+      return 0;
     }
   },
 
   printWeekendDiscount(price) {
     if (price) {
       Console.print(`주말 할인: -${price.toLocaleString('ko-KR')}원`);
+      return 0;
     }
   },
 
   printSpecialDiscount(price) {
     if (price) {
       Console.print(`특별 할인: -${price.toLocaleString('ko-KR')}원`);
+      return 0;
     }
   },
 
   printGiftPrice(price) {
     if (price) {
       Console.print(`증정 이벤트: -${price.toLocaleString('ko-KR')}원`);
+      return 0;
     }
+  },
+
+  printNoBenefit() {
+    Console.print('없음');
   },
 
   printTotalBenefitPrice() {
