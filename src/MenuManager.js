@@ -30,6 +30,8 @@ class MenuManager {
 
     const orderDuplicateCheck = new Set();
 
+    let totalMenuCount = 0;
+
     orderList.forEach((menu) => {
       if (!menu.name) {
         throw new Error(this.#errorMessage.INVALID_ORDER);
@@ -60,7 +62,12 @@ class MenuManager {
       }
 
       orderDuplicateCheck.add(menu.name);
+      totalMenuCount += menu.count;
     });
+
+    if (totalMenuCount > 20) {
+      throw new Error(this.#errorMessage.INVALID_ORDER);
+    }
   }
 
   get orderList() {
