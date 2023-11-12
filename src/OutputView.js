@@ -78,7 +78,39 @@ const OutputView = {
   },
 
   printTotalDiscountPrice(price) {
-    Console.print(`-${price.toLocaleString('ko-KR')}원`);
+    if (price) {
+      Console.print(`-${price.toLocaleString('ko-KR')}원`);
+    }
+
+    Console.print('0원');
+  },
+
+  printAfterBenefit() {
+    Console.print('<할인 후 예상 결제 금액>');
+  },
+
+  printExpectPrice(price) {
+    Console.print(`${price.toLocaleString('ko-KR')}원`);
+  },
+
+  printEventBadge() {
+    Console.print('<12월 이벤트 배지>');
+  },
+
+  printExpectEventBadge(price) {
+    if (price >= 20000) {
+      return Console.print('산타');
+    }
+
+    if (price >= 10000) {
+      return Console.print('트리');
+    }
+
+    if (price >= 5000) {
+      return Console.print('별');
+    }
+
+    Console.print('없음');
   },
 
   printError(message) {

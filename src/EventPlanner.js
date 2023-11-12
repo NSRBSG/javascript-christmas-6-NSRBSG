@@ -103,6 +103,16 @@ class EventPlanner {
     );
   }
 
+  #expectPrice() {
+    return (
+      this.#menuManager.calculateTotalPrice() -
+      this.#calculateHolidayDiscount() -
+      this.#calculateWeekendDiscount() -
+      this.#calculateWeekdayDiscount() -
+      this.#calculateSpecialDiscount()
+    );
+  }
+
   previewBenefit() {
     OutputView.printPreviewBenefit(this.#dateManager.date);
     OutputView.printMenu();
@@ -114,6 +124,10 @@ class EventPlanner {
     this.#benefitDetails();
     OutputView.printTotalBenefitPrice();
     OutputView.printTotalDiscountPrice(this.#totalDiscountPrice());
+    OutputView.printAfterBenefit();
+    OutputView.printExpectPrice(this.#expectPrice());
+    OutputView.printEventBadge();
+    OutputView.printExpectEventBadge(this.#totalDiscountPrice());
   }
 }
 
