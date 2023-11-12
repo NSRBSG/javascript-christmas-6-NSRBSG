@@ -7,8 +7,6 @@ class EventPlanner {
   #dateManager;
   #menuManager;
 
-  constructor() {}
-
   async getDateToVisit() {
     OutputView.printWelcome();
     while (true) {
@@ -96,7 +94,42 @@ class EventPlanner {
     return 0;
   }
 
-  #benefitDetails() {
+  #totalDiscountPrice() {
+    return (
+      this.#calculateHolidayDiscount() +
+      this.#calculateWeekendDiscount() +
+      this.#calculateWeekdayDiscount() +
+      this.#calculateSpecialDiscount() +
+      this.#calculateGiftPrice()
+    );
+  }
+
+  #expectPrice() {
+    return (
+      this.#menuManager.calculateTotalPrice() -
+      this.#calculateHolidayDiscount() -
+      this.#calculateWeekendDiscount() -
+      this.#calculateWeekdayDiscount() -
+      this.#calculateSpecialDiscount()
+    );
+  }
+
+  #displayOrderMenu() {
+    OutputView.printMenu();
+    OutputView.printOrder(this.#menuManager.orderList);
+  }
+
+  #displayBeforeBenefit() {
+    OutputView.printBeforeBenefit();
+    OutputView.printOriginalPrice(this.#menuManager.calculateTotalPrice());
+  }
+
+  #displayGiftMenu() {
+    OutputView.printGiftMenu();
+    OutputView.printGift(this.#approveGift());
+  }
+
+  #displayBenefitDetails() {
     OutputView.printBenefitDetails();
 
     const leastOneDiscount = new Set();
@@ -120,41 +153,30 @@ class EventPlanner {
     }
   }
 
-  #totalDiscountPrice() {
-    return (
-      this.#calculateHolidayDiscount() +
-      this.#calculateWeekendDiscount() +
-      this.#calculateWeekdayDiscount() +
-      this.#calculateSpecialDiscount() +
-      this.#calculateGiftPrice()
-    );
+  #displayTotalBenefitPrice() {
+    OutputView.printTotalBenefitPrice();
+    OutputView.printTotalDiscountPrice(this.#totalDiscountPrice());
   }
 
-  #expectPrice() {
-    return (
-      this.#menuManager.calculateTotalPrice() -
-      this.#calculateHolidayDiscount() -
-      this.#calculateWeekendDiscount() -
-      this.#calculateWeekdayDiscount() -
-      this.#calculateSpecialDiscount()
-    );
+  #displayAfterBenefitPrice() {
+    OutputView.printAfterBenefit();
+    OutputView.printExpectPrice(this.#expectPrice());
+  }
+
+  #displayEventBadge() {
+    OutputView.printEventBadge();
+    OutputView.printExpectEventBadge(this.#totalDiscountPrice());
   }
 
   previewBenefit() {
     OutputView.printPreviewBenefit(this.#dateManager.date);
-    OutputView.printMenu();
-    OutputView.printOrder(this.#menuManager.orderList);
-    OutputView.printBeforeBenefit();
-    OutputView.printOriginalPrice(this.#menuManager.calculateTotalPrice());
-    OutputView.printGiftMenu();
-    OutputView.printGift(this.#approveGift());
-    this.#benefitDetails();
-    OutputView.printTotalBenefitPrice();
-    OutputView.printTotalDiscountPrice(this.#totalDiscountPrice());
-    OutputView.printAfterBenefit();
-    OutputView.printExpectPrice(this.#expectPrice());
-    OutputView.printEventBadge();
-    OutputView.printExpectEventBadge(this.#totalDiscountPrice());
+    this.#displayOrderMenu();
+    this.#displayBeforeBenefit();
+    this.#displayGiftMenu();
+    this.#displayBenefitDetails();
+    this.#displayTotalBenefitPrice();
+    this.#displayAfterBenefitPrice();
+    this.#displayEventBadge();
   }
 }
 
