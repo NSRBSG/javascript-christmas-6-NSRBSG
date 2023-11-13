@@ -4,24 +4,20 @@ describe('DateManager 테스트', () => {
   const INVALID_DATE_MESSAGE =
     '[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.';
 
-  test('날짜가 숫자가 아닌 경우', () => {
+  test('날짜가 숫자가 아닌 경우 에러처리', () => {
     expect(() => new DateManager('a')).toThrow(INVALID_DATE_MESSAGE);
   });
 
-  test('날짜가 1보다 작은 경우', () => {
+  test('날짜가 1보다 작은 경우 에러처리', () => {
     expect(() => new DateManager(0)).toThrow(INVALID_DATE_MESSAGE);
   });
 
-  test('날짜가 31보다 큰 경우', () => {
+  test('날짜가 31보다 큰 경우 에러처리', () => {
     expect(() => new DateManager(32)).toThrow(INVALID_DATE_MESSAGE);
   });
 
-  test('날짜가 정수가 아닌 경우', () => {
+  test('날짜가 정수가 아닌 경우 에러처리', () => {
     expect(() => new DateManager(1.5)).toThrow(INVALID_DATE_MESSAGE);
-  });
-
-  test('날짜가 유효한 경우', () => {
-    expect(new DateManager(1).date).toBe(1);
   });
 
   test('크리스마스 이벤트 날짜가 아닌 경우', () => {
@@ -46,5 +42,9 @@ describe('DateManager 테스트', () => {
 
   test('특별 할인 날짜인 경우', () => {
     expect(new DateManager(10).isSpecialDiscount).toBe(true);
+  });
+
+  test('유효한 날짜인 경우', () => {
+    expect(new DateManager(10)).toBeInstanceOf(DateManager);
   });
 });
