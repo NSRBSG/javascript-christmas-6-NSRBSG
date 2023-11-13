@@ -1,10 +1,26 @@
+import DateManager from './DateManager.js';
+import MenuManager from './MenuManager.js';
+
 class EventPlanner {
+  #errorMessage = {
+    INVALID_INSTANCE: '[ERROR] 인스턴스가 잘못되었습니다.',
+  };
   #dateManager;
   #menuManager;
 
   constructor(dateManager, menuManager) {
+    this.#validateClass(dateManager, menuManager);
     this.#dateManager = dateManager;
     this.#menuManager = menuManager;
+  }
+
+  #validateClass(dateManager, menuManager) {
+    if (
+      !(dateManager instanceof DateManager) ||
+      !(menuManager instanceof MenuManager)
+    ) {
+      throw new Error(this.#errorMessage.INVALID_INSTANCE);
+    }
   }
 
   get originalTotalPrice() {
