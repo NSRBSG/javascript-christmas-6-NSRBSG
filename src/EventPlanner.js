@@ -34,7 +34,7 @@ class EventPlanner {
     return false;
   }
 
-  calculateHolidayDiscount(date) {
+  #calculateHolidayDiscount(date) {
     if (
       this.#menuManager.calculateTotalPrice() >= 10000 &&
       this.#dateManager.isHolidayDiscount
@@ -48,7 +48,7 @@ class EventPlanner {
     return 0;
   }
 
-  calculateWeekendDiscount() {
+  #calculateWeekendDiscount() {
     if (
       this.#menuManager.calculateTotalPrice() >= 10000 &&
       this.#dateManager.isWeekendDiscount
@@ -59,7 +59,7 @@ class EventPlanner {
     return 0;
   }
 
-  calculateWeekdayDiscount() {
+  #calculateWeekdayDiscount() {
     if (
       this.#menuManager.calculateTotalPrice() >= 10000 &&
       !this.#dateManager.isWeekendDiscount
@@ -70,7 +70,7 @@ class EventPlanner {
     return 0;
   }
 
-  calculateSpecialDiscount() {
+  #calculateSpecialDiscount() {
     if (
       this.#menuManager.calculateTotalPrice() >= 10000 &&
       this.#dateManager.isSpecialDiscount
@@ -81,7 +81,7 @@ class EventPlanner {
     return 0;
   }
 
-  calculateGiftPrice() {
+  #calculateGiftPrice() {
     if (this.approveGift()) {
       return 25000;
     }
@@ -90,11 +90,11 @@ class EventPlanner {
   }
 
   allBenefitCalculate(date) {
-    const holiday = this.calculateHolidayDiscount(date);
-    const weekend = this.calculateWeekendDiscount();
-    const weekday = this.calculateWeekdayDiscount();
-    const special = this.calculateSpecialDiscount();
-    const gift = this.calculateGiftPrice();
+    const holiday = this.#calculateHolidayDiscount(date);
+    const weekend = this.#calculateWeekendDiscount();
+    const weekday = this.#calculateWeekdayDiscount();
+    const special = this.#calculateSpecialDiscount();
+    const gift = this.#calculateGiftPrice();
 
     return {
       holiday,
@@ -107,21 +107,21 @@ class EventPlanner {
 
   totalDiscountPrice(date) {
     return (
-      this.calculateHolidayDiscount(date) +
-      this.calculateWeekendDiscount() +
-      this.calculateWeekdayDiscount() +
-      this.calculateSpecialDiscount() +
-      this.calculateGiftPrice()
+      this.#calculateHolidayDiscount(date) +
+      this.#calculateWeekendDiscount() +
+      this.#calculateWeekdayDiscount() +
+      this.#calculateSpecialDiscount() +
+      this.#calculateGiftPrice()
     );
   }
 
   expectPrice(date) {
     return (
       this.#menuManager.calculateTotalPrice() -
-      this.calculateHolidayDiscount(date) -
-      this.calculateWeekendDiscount() -
-      this.calculateWeekdayDiscount() -
-      this.calculateSpecialDiscount()
+      this.#calculateHolidayDiscount(date) -
+      this.#calculateWeekendDiscount() -
+      this.#calculateWeekdayDiscount() -
+      this.#calculateSpecialDiscount()
     );
   }
 }
