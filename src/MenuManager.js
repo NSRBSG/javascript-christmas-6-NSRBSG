@@ -80,10 +80,6 @@ class MenuManager {
     }
   }
 
-  get orderList() {
-    return this.#orderList;
-  }
-
   get mainCourseCount() {
     const mainCourseOrder = this.#orderList.filter((order) => {
       const { type } = this.#menuData.find((data) => data.name === order.name);

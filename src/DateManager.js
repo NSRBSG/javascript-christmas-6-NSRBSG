@@ -37,10 +37,6 @@ class DateManager {
   get isSpecialDiscount() {
     return this.#specialDiscountDate.includes(this.#date);
   }
-
-  get date() {
-    return this.#date;
-  }
 }
 
 export default DateManager;

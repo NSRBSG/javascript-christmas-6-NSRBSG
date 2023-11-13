@@ -1,43 +1,24 @@
-import DateManager from './DateManager.js';
-import InputView from './InputView.js';
-import MenuManager from './MenuManager.js';
-import OutputView from './OutputView.js';
-
 class EventPlanner {
   #dateManager;
   #menuManager;
 
-  async getDateToVisit() {
-    OutputView.printWelcome();
-    while (true) {
-      try {
-        const date = await InputView.readDate();
-        return (this.#dateManager = new DateManager(date));
-      } catch (error) {
-        OutputView.printError(error.message);
-      }
-    }
+  constructor(dateManager, menuManager) {
+    this.#dateManager = dateManager;
+    this.#menuManager = menuManager;
   }
 
-  async getMenu() {
-    while (true) {
-      try {
-        const menu = await InputView.readMenu();
-        return (this.#menuManager = new MenuManager(menu));
-      } catch (error) {
-        OutputView.printError(error.message);
-      }
-    }
+  get originalTotalPrice() {
+    return this.#menuManager.calculateTotalPrice();
   }
 
-  #approveGift() {
+  approveGift() {
     if (this.#menuManager.calculateTotalPrice() >= 120000) {
       return true;
     }
     return false;
   }
 
-  #calculateHolidayDiscount() {
+  calculateHolidayDiscount(date) {
     if (
       this.#menuManager.calculateTotalPrice() >= 10000 &&
       this.#dateManager.isHolidayDiscount
@@ -45,13 +26,13 @@ class EventPlanner {
       const baseDiscount = 1000;
       const alphaDiscount = 100;
 
-      return baseDiscount + (this.#dateManager.date - 1) * alphaDiscount;
+      return baseDiscount + (date - 1) * alphaDiscount;
     }
 
     return 0;
   }
 
-  #calculateWeekendDiscount() {
+  calculateWeekendDiscount() {
     if (
       this.#menuManager.calculateTotalPrice() >= 10000 &&
       this.#dateManager.isWeekendDiscount
@@ -62,7 +43,7 @@ class EventPlanner {
     return 0;
   }
 
-  #calculateWeekdayDiscount() {
+  calculateWeekdayDiscount() {
     if (
       this.#menuManager.calculateTotalPrice() >= 10000 &&
       !this.#dateManager.isWeekendDiscount
@@ -73,110 +54,59 @@ class EventPlanner {
     return 0;
   }
 
-  #calculateSpecialDiscount() {
+  calculateSpecialDiscount() {
     if (
       this.#menuManager.calculateTotalPrice() >= 10000 &&
       this.#dateManager.isSpecialDiscount
     ) {
-      const baseDiscount = 1000;
-      return baseDiscount;
+      return 1000;
     }
 
     return 0;
   }
 
-  #calculateGiftPrice() {
-    if (this.#approveGift()) {
-      const giftPrice = 25000;
-      return giftPrice;
+  calculateGiftPrice() {
+    if (this.approveGift()) {
+      return 25000;
     }
 
     return 0;
   }
 
-  #totalDiscountPrice() {
+  allBenefitCalculate(date) {
+    const holiday = this.calculateHolidayDiscount(date);
+    const weekend = this.calculateWeekendDiscount();
+    const weekday = this.calculateWeekdayDiscount();
+    const special = this.calculateSpecialDiscount();
+    const gift = this.calculateGiftPrice();
+
+    return {
+      holiday,
+      weekend,
+      weekday,
+      special,
+      gift,
+    };
+  }
+
+  totalDiscountPrice(date) {
     return (
-      this.#calculateHolidayDiscount() +
-      this.#calculateWeekendDiscount() +
-      this.#calculateWeekdayDiscount() +
-      this.#calculateSpecialDiscount() +
-      this.#calculateGiftPrice()
+      this.calculateHolidayDiscount(date) +
+      this.calculateWeekendDiscount() +
+      this.calculateWeekdayDiscount() +
+      this.calculateSpecialDiscount() +
+      this.calculateGiftPrice()
     );
   }
 
-  #expectPrice() {
+  expectPrice(date) {
     return (
       this.#menuManager.calculateTotalPrice() -
-      this.#calculateHolidayDiscount() -
-      this.#calculateWeekendDiscount() -
-      this.#calculateWeekdayDiscount() -
-      this.#calculateSpecialDiscount()
+      this.calculateHolidayDiscount(date) -
+      this.calculateWeekendDiscount() -
+      this.calculateWeekdayDiscount() -
+      this.calculateSpecialDiscount()
     );
-  }
-
-  #displayOrderMenu() {
-    OutputView.printMenu();
-    OutputView.printOrder(this.#menuManager.orderList);
-  }
-
-  #displayBeforeBenefit() {
-    OutputView.printBeforeBenefit();
-    OutputView.printOriginalPrice(this.#menuManager.calculateTotalPrice());
-  }
-
-  #displayGiftMenu() {
-    OutputView.printGiftMenu();
-    OutputView.printGift(this.#approveGift());
-  }
-
-  #displayBenefitDetails() {
-    OutputView.printBenefitDetails();
-
-    const leastOneDiscount = new Set();
-
-    leastOneDiscount.add(
-      OutputView.printHolidayDiscount(this.#calculateHolidayDiscount())
-    );
-    leastOneDiscount.add(
-      OutputView.printWeekendDiscount(this.#calculateWeekendDiscount())
-    );
-    leastOneDiscount.add(
-      OutputView.printWeekdayDiscount(this.#calculateWeekdayDiscount())
-    );
-    leastOneDiscount.add(
-      OutputView.printSpecialDiscount(this.#calculateSpecialDiscount())
-    );
-    leastOneDiscount.add(OutputView.printGiftPrice(this.#calculateGiftPrice()));
-
-    if (!leastOneDiscount.has(0)) {
-      OutputView.printNoBenefit();
-    }
-  }
-
-  #displayTotalBenefitPrice() {
-    OutputView.printTotalBenefitPrice();
-    OutputView.printTotalDiscountPrice(this.#totalDiscountPrice());
-  }
-
-  #displayAfterBenefitPrice() {
-    OutputView.printAfterBenefit();
-    OutputView.printExpectPrice(this.#expectPrice());
-  }
-
-  #displayEventBadge() {
-    OutputView.printEventBadge();
-    OutputView.printExpectEventBadge(this.#totalDiscountPrice());
-  }
-
-  previewBenefit() {
-    OutputView.printPreviewBenefit(this.#dateManager.date);
-    this.#displayOrderMenu();
-    this.#displayBeforeBenefit();
-    this.#displayGiftMenu();
-    this.#displayBenefitDetails();
-    this.#displayTotalBenefitPrice();
-    this.#displayAfterBenefitPrice();
-    this.#displayEventBadge();
   }
 }
 
